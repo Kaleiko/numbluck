@@ -1,4 +1,4 @@
-# lady-numb-luck
+# numbluck
 Shows the odds of profitability within betting strategies in common casino games
 
 This repo is a WIP in which i will continually upload new casino games along with new strategies as I receive requests to do so.
