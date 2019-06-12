@@ -1,8 +1,11 @@
+import numpy as np
+
+
 # American Roulette with 0 and 00.  Numbers are from 1:38.
 # European Roulette with 0.  Numbers are from 1:37
 
 
-roulette_number{
+roulette_number = {
     1:['1', 'RED', 'ODD', '1 TO 18', '1 TO 12', '1ST 12'],
     2:['2', 'BLACK', 'EVEN', '1 TO 18', '1 TO 12', '2ND 12'],
     3:['3', 'RED', 'ODD', '1 TO 18', '1 TO 12', '3RD 12'],
@@ -42,3 +45,9 @@ roulette_number{
     37:['0', 'GREEN'],
     38:['00', 'GREEN'],
 }
+
+def play(game_name):
+    random_play = np.random.randint(1, len(game_name))
+    print(random_play)
+
+play(roulette_number)
