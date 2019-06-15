@@ -62,36 +62,43 @@ class Roulette():
 
 
     def single_play():
+        number_of_games = input('WELCOME TO ROULETTE!! WE ARE READY TO TAKE YOUR MONEY!!!  HOW MANY GAMES WILL YOU BE PLAYING? ')
         account_balance = 1000
-        #ibets = input('Please place your bets!.  You can do this by writing you bet number or location as'\
-         #   ' a key, and bet amount as a pair.  Please separate each key:value pair with a commma. ')
-        random_play = Roulette.possible_outcomes[np.random.randint(1, len(Roulette.possible_outcomes))]
-        print(random_play[0], random_play[1])    
-    
-        profit_and_loss_this_turn = 0
-        for bet_number, bet_amount in bets.items(): 
-            if bet_number in random_play:
-                win_amount = Roulette.payout_ratios[bet_number] * bets[bet_number]
-                profit_and_loss_this_turn += win_amount
+        for each_game in range(int(number_of_games)):
+            bets = {}
+            betting_phase = True
+            while betting_phase == True:
+                print('HERE ARE THE BETS YOU CAN MAKE:')
+                for each_space, payout in Roulette.payout_ratios.items():
+                    print(each_space + ' Pays ' + str(payout) + ' TO 1')
+                bet_number_str = input('Where would you like to place your bet? ')
+                bet_amount_int = input('How much would you like to bet? ') 
+                bets[bet_number_str] = int(bet_amount_int)
+                continue_betting = input('Would you like to place another bet? Y/N? ')
+                if continue_betting.upper() == 'N':
+                    betting_phase = False
+
+            random_play = Roulette.possible_outcomes[np.random.randint(1, len(Roulette.possible_outcomes))]
+            print(random_play[0], random_play[1])   
+        
+            profit_and_loss_this_turn = 0
+            for bet_number, bet_amount in bets.items(): 
+                if bet_number in random_play:
+                    win_amount = Roulette.payout_ratios[bet_number] * bets[bet_number]
+                    profit_and_loss_this_turn += win_amount
+                else:
+                    loss_amount = bets[bet_number]
+                    profit_and_loss_this_turn -= loss_amount
+            if profit_and_loss_this_turn > 0:
+                print('YOU WON $' + str(profit_and_loss_this_turn) + '!!!')
+            elif profit_and_loss_this_turn < 0:
+                print('YOU LOST $' + str((-1 * profit_and_loss_this_turn)) + '.')
             else:
-                loss_amount = bets[bet_number]
-                profit_and_loss_this_turn -= loss_amount
-        if profit_and_loss_this_turn > 0:
-            print('YOU WON $' + str(profit_and_loss_this_turn) + '!!!')
-        elif profit_and_loss_this_turn < 0:
-            print('YOU LOST $' + str((-1 * profit_and_loss_this_turn)) + '.')
-        else:
-            print('ITS A BREAKEVEN PUSH!')
-        account_balance += profit_and_loss_this_turn
-        print('YOUR ACCOUNT BALANCE IS NOW $' + str(account_balance))
-
-bets = {'RED':4, '1ST 12':5, '2ND 12':3}  
-
+                print('ITS A BREAKEVEN PUSH!')
+            account_balance += profit_and_loss_this_turn
+            print('YOUR ACCOUNT BALANCE IS NOW $' + str(account_balance))
+ 
 def play(game_name):
     game_name.single_play()
     
-    
-
 play(Roulette)
-
-#print(Roulette.payout_ratios['25'])
