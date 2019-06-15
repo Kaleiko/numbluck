@@ -48,6 +48,7 @@ class Roulette():
     }
 
     payout_ratios = {
+        # payout ratios are the ratio of what user is paid against a bet of $1
         '1': 35, '2': 35, '3': 35, '4': 35, '5': 35, '6': 35, '7': 35, 
         '8': 35, '9': 35, '10': 35, '11': 35, '12': 35, '12': 35, 
         '13': 35, '14': 35, '15': 35, '16': 35, '17': 35, '18': 35, 
@@ -56,14 +57,24 @@ class Roulette():
         '31': 35, '32': 35, '33': 35, '34': 35, '35': 35, '36': 35,
         '0': 35, '00': 35, 'RED': 1, 'BLACK': 1, 'ODD': 1,
         'EVEN': 1, '1 TO 18': 1, '19 TO 36': 1, '1 TO 12': 2, '13 TO 24': 2,
-        '25 TO 36': 2, '1ST 12': 2, '2ND 12': 2, '3RD 12': 2
-}
-    
+        '25 TO 36': 2, '1ST 12': 2, '2ND 12': 2, '3RD 12': 2,
+    }
+
+    def single_play():
+        for each_bet in bets: 
+            if each_bet in random_play:
+                print('YOU WON $' + str(game_name.payout_ratios[each_bet]) + '!!!')
+            else:
+                print('Your bet on ' + each_bet + ' did not win')
+
+bets = ['RED', '1ST 12', '2ND 12']   
 
 def play(game_name):
     random_play = game_name.possible_outcomes[np.random.randint(1, len(game_name.possible_outcomes))]
-    print(random_play)
+    print(random_play[0], random_play[1])
+    game_name.single_play()
+    
 
 play(Roulette)
 
-print(Roulette.payout_ratios['25'])
+#print(Roulette.payout_ratios['25'])
