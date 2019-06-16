@@ -4,6 +4,9 @@ import numpy as np
 # American Roulette with 0 and 00.  Numbers are from 1:38.
 # European Roulette with 0.  Numbers are from 1:37
 
+class Casino():
+    all_games = ['ROULETTE']
+
 class Roulette():
 
     possible_outcomes = {
@@ -62,7 +65,7 @@ class Roulette():
 
 
     def single_play():
-        number_of_games = input('WELCOME TO ROULETTE!! WE ARE READY TO TAKE YOUR MONEY!!!  HOW MANY GAMES WILL YOU BE PLAYING? ')
+        number_of_games = input('WELCOME TO ROULETTE!! \n WE ARE READY TO TAKE YOUR MONEY!!!  \n \n HOW MANY GAMES WILL YOU BE PLAYING? ')
         account_balance = 1000
         for each_game in range(int(number_of_games)):
             bets = {}
@@ -100,5 +103,12 @@ class Roulette():
  
 def play(game_name):
     game_name.single_play()
-    
+
+print('WELCOME TO OUR CASINO, WHERE WE SHOW THAT NO MATTER HOW HARD YOU TRY OR BET, THE CASINO STILL'\
+    'STACKS THE ODDS IN THEIR FAVOR AND CONNAT BE BEATEN!  BUT WHY NOT TRY FOR YOURSELF? \n')   
+
+print('HERE ARE THE GAMES YOU CAN PLAY: \n')
+print(str(Casino.all_games) + '\n')
+user_pick_game = input('WHICH GAME WOULD YOU LIKE TO PLAY? \n')
+print(user_pick_game.title())
 play(Roulette)
