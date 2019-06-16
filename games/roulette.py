@@ -2,8 +2,12 @@ import numpy as np
 # American Roulette with 0 and 00.  Numbers are from 1:38.
 # European Roulette with 0.  Numbers are from 1:37
 
-
 class Roulette:
+    def __init__(self, account_balance, num_of_games, play_type):
+        self.account_balance = account_balance
+        self.num_of_games = num_of_games
+        self.play_type = play_type
+
     possible_outcomes = {
         1:['1', 'RED', 'ODD', '1 TO 18', '1 TO 12', '1ST 12'],
         2:['2', 'BLACK', 'EVEN', '1 TO 18', '1 TO 12', '2ND 12'],
@@ -57,11 +61,6 @@ class Roulette:
         'EVEN': 1, '1 TO 18': 1, '19 TO 36': 1, '1 TO 12': 2, '13 TO 24': 2,
         '25 TO 36': 2, '1ST 12': 2, '2ND 12': 2, '3RD 12': 2,
     }
-
-    # def __init__(self, balance, num_of_games, play_type):
-    #     self.balance = balance
-    #     self.num_of_games = num_of_games
-    #     self.play_type = play_type
 
     def single_play():
         number_of_games = input('WELCOME TO ROULETTE!! \n WE ARE READY TO TAKE YOUR MONEY!!!  \n \n HOW MANY GAMES WILL YOU BE PLAYING? ')
