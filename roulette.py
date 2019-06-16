@@ -1,14 +1,9 @@
 import numpy as np
-
-
 # American Roulette with 0 and 00.  Numbers are from 1:38.
 # European Roulette with 0.  Numbers are from 1:37
 
-class Casino():
-    all_games = ['ROULETTE']
 
-class Roulette():
-
+class Roulette:
     possible_outcomes = {
         1:['1', 'RED', 'ODD', '1 TO 18', '1 TO 12', '1ST 12'],
         2:['2', 'BLACK', 'EVEN', '1 TO 18', '1 TO 12', '2ND 12'],
@@ -63,6 +58,10 @@ class Roulette():
         '25 TO 36': 2, '1ST 12': 2, '2ND 12': 2, '3RD 12': 2,
     }
 
+    # def __init__(self, balance, num_of_games, play_type):
+    #     self.balance = balance
+    #     self.num_of_games = num_of_games
+    #     self.play_type = play_type
 
     def single_play():
         number_of_games = input('WELCOME TO ROULETTE!! \n WE ARE READY TO TAKE YOUR MONEY!!!  \n \n HOW MANY GAMES WILL YOU BE PLAYING? ')
@@ -101,14 +100,3 @@ class Roulette():
             account_balance += profit_and_loss_this_turn
             print('YOUR ACCOUNT BALANCE IS NOW $' + str(account_balance))
  
-def play(game_name):
-    game_name.single_play()
-
-print('WELCOME TO OUR CASINO, WHERE WE SHOW YOU THAT NO MATTER HOW HARD YOU TRY OR BET, THE CASINO STILL ', 
-      'STACKS THE ODDS IN THEIR FAVOR AND CANNOT BE BEATEN! BUT WHY NOT TRY FOR YOURSELF? \n')   
-
-print('HERE ARE THE GAMES YOU CAN PLAY: \n')
-print(str(Casino.all_games) + '\n')
-user_pick_game = input('WHICH GAME WOULD YOU LIKE TO PLAY? \n')
-print(user_pick_game.title())
-play(Roulette)
