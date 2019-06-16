@@ -17,9 +17,8 @@ print('HERE ARE THE GAMES YOU CAN PLAY: \n')
 print([game.value for game in Game], '\n')
 user_pick_game = input('WHICH GAME WOULD YOU LIKE TO PLAY? \n')
 try:
-    Game[user_pick_game]
+    eval(Game[user_pick_game])
     print('Success')
+    play(eval(user_pick_game))
 except KeyError:
     print('Game not found')
-
-# play(Roulette)
