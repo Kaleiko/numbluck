@@ -1,6 +1,13 @@
 import numpy as np
+import ipdb
 # American Roulette with 0 and 00.  Numbers are from 1:38.
 # European Roulette with 0.  Numbers are from 1:37
+
+# TAKE THIS SECTION OUT WHEN DONE TESTING~~~~~~~~~~~~~~
+#~~~~~~~~~~~~~~~~~~~~~~~
+#def play(game_name):
+ #   game_name.single_play()
+#~~~~~~~~~~~~~~~~~~~~~
 
 class Roulette:
     def __init__(self, account_balance, num_of_games, play_type):
@@ -45,8 +52,8 @@ class Roulette:
         34:['34', 'RED', 'EVEN', '19 TO 36', '25 TO 36', '1ST 12'],
         35:['35', 'BLACK', 'ODD', '19 TO 36', '25 TO 36', '2ND 12'],
         36:['36', 'RED', 'EVEN', '19 TO 36', '25 TO 36', '3RD 12'],
-        37:['0', 'GREEN'],
-        38:['00', 'GREEN'],
+        37:['0', 'GREEN', 'ZERO', 'ZERO', 'ZERO'],
+        38:['D-00', 'GREEN', 'Double 0', 'Double 0', 'Double 0'],
     }
 
     payout_ratios = {
@@ -98,4 +105,128 @@ class Roulette:
                 print('ITS A BREAKEVEN PUSH!')
             account_balance += profit_and_loss_this_turn
             print('YOUR ACCOUNT BALANCE IS NOW $' + str(account_balance))
- 
+    
+    
+    def martingale(bets_placed = ['1 TO 12', '13 TO 24', '25 TO 36'], amplifier = 5, max_bet = 625, streak_trigger = 0):
+        #amplifier is the amount that is multiplied by the previous bet.  Default martingale is
+            #doubling each bet, this would be a multiplier of 2.  If 3 is set, it will multiply the 
+            #previous bet by 3.  
+        
+        #max_bet is the maximum amount that can be bet on a given space.  Martingale will cap
+            # at 128 by default.  
+
+        #streak_trigger represents the amount of a loss streak that must occur in order for 
+            # a bet to be placed.  
+        streak = {}
+        martingale_count = {}
+        account_balance = 1000
+        for each_bet in bets_placed:
+                streak[each_bet] = 1
+                martingale_count[each_bet] = 1  
+        for each_run in range(1, 100):
+            #ipdb.set_trace()
+            random_play = Roulette.possible_outcomes[np.random.randint(1, len(Roulette.possible_outcomes))]
+            for each_bet in bets_placed:
+                if each_bet in random_play and streak[each_bet] > streak_trigger:
+                    account_balance += martingale_count[each_bet] * Roulette.payout_ratios[each_bet]
+                    streak[each_bet] = 1
+                    martingale_count[each_bet] = 1
+                    
+                elif streak[each_bet] > streak_trigger and each_bet not in random_play:
+                    account_balance -= martingale_count[each_bet]
+                    if martingale_count[each_bet] >= max_bet:
+                        martingale_count[each_bet] = 1
+                    else:
+                        martingale_count[each_bet] = martingale_count[each_bet] * amplifier
+                    streak[each_bet] += 1
+
+                elif streak[each_bet] <= streak_trigger:
+                    streak[each_bet] += 1
+        print(account_balance)
+
+    def reverse_martingale(bets_placed = ['1 TO 12', '13 TO 24', '25 TO 36'], amplifier = 2, max_bet = 1000):
+            #amplifier is the amount that is multiplied by the previous bet.  Default martingale is
+                #doubling each bet, this would be a multiplier of 2.  If 3 is set, it will multiply the 
+                #previous bet by 3.  
+            
+            #max_bet is the maximum amount that can be bet on a given space.  Martingale will cap
+                # at 1000 by default.  
+
+            martingale_count = {}
+            account_balance = 1000
+            for each_bet in bets_placed:
+                    martingale_count[each_bet] = 1  
+            for each_run in range(1, 100):
+                ipdb.set_trace()
+                random_play = Roulette.possible_outcomes[np.random.randint(1, len(Roulette.possible_outcomes))]
+                for each_bet in bets_placed:
+                    if each_bet in random_play:
+                        account_balance += (martingale_count[each_bet] * Roulette.payout_ratios[each_bet])
+                        martingale_count[each_bet] *= amplifier
+                    else:
+                        account_balance -= martingale_count[each_bet]
+                        martingale_count[each_bet] = 1 
+                    
+            print(account_balance)
+    
+    def dual_martingale(bets_placed = ['1 TO 12', '13 TO 24', '25 TO 36'], amplifier = 2, max_bet = 900):
+        #amplifier is the amount that is multiplied by the previous bet.  Default martingale is
+            #doubling each bet, this would be a multiplier of 2.  If 3 is set, it will multiply the 
+            #previous bet by 3.  
+        
+        #max_bet is the maximum amount that can be bet on a given space.  Martingale will cap
+            # at 128 by default.  
+
+        martingale_count = {}
+        martingale_type = {} #tells whether current system is in a standard martingale, reverse
+        #martingale, or dual martingale system.
+        account_balance = 1000
+        for each_bet in bets_placed:
+                martingale_count[each_bet] = 1
+                martingale_type[each_bet] = 'dual'  
+        for each_run in range(1, 100):
+            #ipdb.set_trace()
+            random_play = Roulette.possible_outcomes[np.random.randint(1, len(Roulette.possible_outcomes))]
+            for each_bet in bets_placed:
+                if each_bet in random_play and martingale_type[each_bet] == 'standard':
+                    account_balance += martingale_count[each_bet] * Roulette.payout_ratios[each_bet]
+                    martingale_count[each_bet] = 1
+                    martingale_type[each_bet] = 'dual'
+                    
+                elif each_bet not in random_play and martingale_type[each_bet] == 'standard':
+                    account_balance -= martingale_count[each_bet]
+                    if martingale_count[each_bet] == max_bet or martingale_count[each_bet] > max_bet:
+                        martingale_count[each_bet] = 1
+                        martingale_type[each_bet] = 'dual'
+                    else:
+                        martingale_count[each_bet] *= amplifier
+                
+                elif each_bet in random_play and martingale_type[each_bet] == 'reverse':
+                    account_balance += martingale_count[each_bet] * Roulette.payout_ratios[each_bet]
+                    if martingale_count[each_bet] == max_bet or martingale_count[each_bet] > max_bet:
+                        martingale_count[each_bet] = 1
+                        martingale_type[each_bet] = 'dual'
+                    else:
+                        martingale_count[each_bet] *= amplifier
+
+                elif each_bet not in random_play and martingale_type[each_bet] == 'reverse':
+                    account_balance -= martingale_count[each_bet]
+                    martingale_count[each_bet] = 1
+                    martingale_type[each_bet] = 'dual'
+
+                elif each_bet in random_play and martingale_type[each_bet] == 'dual':
+                    account_balance += martingale_count[each_bet] * Roulette.payout_ratios[each_bet]
+                    martingale_count[each_bet] *= amplifier
+                    martingale_type[each_bet] = 'reverse'
+                
+                elif each_bet not in random_play and martingale_type[each_bet] == 'dual':
+                    account_balance -= martingale_count[each_bet]
+                    martingale_count[each_bet] *= amplifier
+                    martingale_type[each_bet] = 'standard'
+   
+        print(account_balance)
+
+
+#~~~~~~~~~~~~~~~~~~
+#play(Roulette)
+#~~~~~~~~~~~~~~~~~~

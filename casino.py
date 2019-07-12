@@ -1,4 +1,4 @@
-from games import Color
+#from games import Color
 from games.roulette import Roulette
 
 
@@ -11,7 +11,7 @@ def play(game_name):
 
 input('WELCOME TO OUR CASINO, WHERE WE SHOW YOU THAT NO MATTER HOW HARD YOU TRY OR BET, '\
       'THE CASINO STILL STACKS THE ODDS IN THEIR FAVOR AND CANNOT BE BEATEN! BUT WHY NOT TRY FOR YOURSELF? \n'\
-      'Please press Enter to continue..')   
+      'Please press ENTER to continue..')   
 
 print('\nHERE ARE THE GAMES YOU CAN PLAY: \n')
 for eeach_game in Casino.all_games:
@@ -20,6 +20,8 @@ for eeach_game in Casino.all_games:
 user_pick_game = input('\nWhich game would you like to play? \n')
 
 try:
-    play(eval(user_pick_game))
-except KeyError:
+        play(eval(user_pick_game.title()))
+except:
     print('Game not found')
+
+
